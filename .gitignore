@@ -1,0 +1,9 @@
+build
+node_modules
+.devbox
+.npm
+tmp
+temp
+*.bin
+build.json
+.envrc

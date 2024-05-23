@@ -1,0 +1,13 @@
+.devbox
+npm
+node_modules
+build.json
+devbox*
+.envrc
+build
+temp
+tmp
+*.bin
+helm
+skaffold.json
+Dockerfile

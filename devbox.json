@@ -1,0 +1,22 @@
+{
+  "packages": [
+    "nodejs@latest",
+    "buildah@latest",
+    "shadow@latest",
+    "skaffold@latest",
+    "strace@latest",
+    "kubectl@latest",
+    "kubernetes-helm@latest",
+    "netcat@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}

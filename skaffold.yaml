@@ -1,0 +1,56 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+metadata:
+  name: liquid-http
+portForward:
+  - resourceType: service
+    resourceName: liquid-http
+    namespace: coder
+    port: 80
+    localPort: 8081
+deploy:
+  helm:
+    releases:
+    - name: liquid-http 
+      chartPath: helm/liquid-http
+      namespace: coder
+      setValueTemplates:
+        image.registry: "{{.IMAGE_DOMAIN_liquid_http}}"
+        image.repository: "{{.IMAGE_REPO_liquid_http}}"
+        image.tag: "{{.IMAGE_TAG_liquid_http}}@{{.IMAGE_DIGEST_liquid_http}}"  
+      setValues:
+        ingress.enabled: true
+build:
+  tagPolicy:
+    dateTime:
+      format: "2006-01-02_15-04-05.999_MST"
+      timezone: "Local"
+  cluster: 
+    serviceAccount: coder-user
+    namespace: coder
+    dockerConfig:
+      path: ~/.docker/config.json
+
+  artifacts:
+    - image: liquid-http
+      platforms: ["linux/arm64", "linux/amd64"]
+      kaniko:
+        cache: 
+          repo: harbor.gladiators.dev/library/liquid-http-cache
+          ttl: 168h
+        ignorePaths: 
+         - .git
+         - .devbox/
+         - .npm
+         - build/
+         - tmp
+         - node_modules/
+         - .envrc
+         - .*
+         - helm
+         - Docker*
+         - skaffold.yaml
+         - .gitignore
+         - devbox*
+         - .dockerignore
+        registryMirror: harbor.gladiators.dev
